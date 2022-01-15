@@ -5,10 +5,11 @@ using UnityEngine;
 public class TurnAlarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private float _startVolume;
     [SerializeField] private float _maxVolume;
     [SerializeField] private float _step;
-    private float _curretnVolume;
+
+    private float _minVolume = 0;
+    private float _currentVolume = 0;
 
     private bool _isWork;
 
@@ -16,15 +17,13 @@ public class TurnAlarm : MonoBehaviour
     {
         if (_isWork)
         {
-            _curretnVolume += Time.deltaTime;
-            float normalozing = _curretnVolume / _maxVolume;
-            _audioSource.volume = Mathf.MoveTowards(_startVolume, _maxVolume, normalozing);
+            _currentVolume = Mathf.MoveTowards(_currentVolume, _maxVolume, _step * Time.deltaTime);
+            _audioSource.volume = _currentVolume;
         }
-        else if (_isWork == false && _curretnVolume > _startVolume)
+        else if (_isWork == false && _currentVolume > _minVolume)
         {
-            _curretnVolume -= Time.deltaTime;
-            float normalozing = _curretnVolume / _maxVolume;
-            _audioSource.volume = Mathf.MoveTowards(_curretnVolume, _startVolume, normalozing);
+            _currentVolume = Mathf.MoveTowards(_currentVolume, _maxVolume, _step * -Time.deltaTime);
+            _audioSource.volume = _currentVolume;
         }
     }
 
@@ -32,10 +31,8 @@ public class TurnAlarm : MonoBehaviour
     {
         if (other.TryGetComponent<MovementPlayer>(out MovementPlayer player))
         {
-            Debug.Log("Сработал триггер");
-
             _isWork = true;
-            _curretnVolume = _startVolume;
+            _currentVolume = _minVolume;
 
             _audioSource.Play();
         }
@@ -46,8 +43,6 @@ public class TurnAlarm : MonoBehaviour
         if (other.TryGetComponent<MovementPlayer>(out MovementPlayer player))
         {
             _isWork = false;
-
-            Debug.Log("Сработал триггер выхода");
         }
     }
 }
