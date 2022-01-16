@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IsOpenDoor : MonoBehaviour
+public class DoorAnimation : MonoBehaviour
 {
+    public GameObject OtherGameObject;
+
     [SerializeField] private Camera _playerCamera;
 
     private RaycastHit _hit;
     private Ray _ray;
+    private Door _door;
+
+    private void Awake()
+    {
+        _door = OtherGameObject.GetComponent<Door>();
+    }
 
     private void Update()
     {
@@ -19,7 +27,14 @@ public class IsOpenDoor : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    _hit.transform.GetComponent<Door>().Open();
+                    if (_door.IsClosed())
+                    {
+                        _door.Close();
+                    }
+                    else
+                    {
+                        _door.Open();
+                    }
                 }
             }
         }

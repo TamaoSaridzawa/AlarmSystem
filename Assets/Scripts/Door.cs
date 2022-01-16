@@ -4,13 +4,28 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    private const string IsOpen = "IsOpen";
+
     [SerializeField] private Animator _animator;
 
     private bool _isOpened;
 
     public void Open()
     {
-        _animator.SetBool("IsOpen", _isOpened);
-        _isOpened = !_isOpened;
+        _animator.SetBool(IsOpen, _isOpened);
+
+        _isOpened = true;
+    }
+
+    public void Close()
+    {
+        _animator.SetBool(IsOpen, _isOpened);
+
+        _isOpened = false;
+    }
+
+    public bool IsClosed()
+    {
+        return _isOpened;
     }
 }

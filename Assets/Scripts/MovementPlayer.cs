@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MovementPlayer : MonoBehaviour
 {
-
     [SerializeField] private float _speed;
-
     [SerializeField] private float _turningSpeed;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.W))
         {

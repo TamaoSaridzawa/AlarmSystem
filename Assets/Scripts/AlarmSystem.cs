@@ -2,30 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnAlarm : MonoBehaviour
+public class AlarmSystem : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _maxVolume;
     [SerializeField] private float _step;
 
-    private float _minVolume = 0;
+    private int _minVolume = 0;
     private float _currentVolume = 0;
-
     private bool _isWork;
-
-    private void Update()
-    {
-        if (_isWork)
-        {
-            _currentVolume = Mathf.MoveTowards(_currentVolume, _maxVolume, _step * Time.deltaTime);
-            _audioSource.volume = _currentVolume;
-        }
-        else if (_isWork == false && _currentVolume > _minVolume)
-        {
-            _currentVolume = Mathf.MoveTowards(_currentVolume, _maxVolume, _step * -Time.deltaTime);
-            _audioSource.volume = _currentVolume;
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,6 +20,8 @@ public class TurnAlarm : MonoBehaviour
             _currentVolume = _minVolume;
 
             _audioSource.Play();
+
+            StartCoroutine(ChangeVolume());
         }
     }
 
@@ -43,6 +30,25 @@ public class TurnAlarm : MonoBehaviour
         if (other.TryGetComponent<MovementPlayer>(out MovementPlayer player))
         {
             _isWork = false;
+        }
+    }
+
+    private IEnumerator ChangeVolume()
+    {
+        while (_isWork)
+        {
+            _currentVolume = Mathf.MoveTowards(_currentVolume, _maxVolume, _step * Time.deltaTime);
+            _audioSource.volume = _currentVolume;
+
+            yield return null;
+        }
+
+        while (_isWork == false)
+        {
+            _currentVolume = Mathf.MoveTowards(_currentVolume, _minVolume, _step * Time.deltaTime);
+            _audioSource.volume = _currentVolume;
+
+            yield return null;
         }
     }
 }
