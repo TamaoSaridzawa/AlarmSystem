@@ -25,7 +25,7 @@ public class BotGenerator : MonoBehaviour
     {
         bool isJob = true;
 
-        WaitForSeconds waitForOneSeconds = new WaitForSeconds(2f);
+        WaitForSeconds waitForTwoSeconds = new WaitForSeconds(2f);
 
         while (isJob)
         {
@@ -33,7 +33,7 @@ public class BotGenerator : MonoBehaviour
             {
                 GameObject newBot = Instantiate(_bot.gameObject, _points[i].transform.position, Quaternion.identity);
                
-                yield return waitForOneSeconds;
+                yield return waitForTwoSeconds;
             }
         }
     }
