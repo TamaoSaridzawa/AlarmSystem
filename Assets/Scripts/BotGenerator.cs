@@ -25,13 +25,15 @@ public class BotGenerator : MonoBehaviour
     {
         bool isJob = true;
 
+        WaitForSeconds waitForOneSeconds = new WaitForSeconds(2f);
+
         while (isJob)
         {
             for (int i = 0; i < _points.Length; i++)
             {
                 GameObject newBot = Instantiate(_bot.gameObject, _points[i].transform.position, Quaternion.identity);
                
-                yield return new WaitForSeconds(2f);
+                yield return waitForOneSeconds;
             }
         }
     }
