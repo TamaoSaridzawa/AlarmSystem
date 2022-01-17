@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class DoorAnimation : MonoBehaviour
 {
-    public GameObject OtherGameObject;
-
+    [SerializeField] private Door _door;
     [SerializeField] private Camera _playerCamera;
 
     private RaycastHit _hit;
     private Ray _ray;
-    private Door _door;
-
-    private void Awake()
-    {
-        _door = OtherGameObject.GetComponent<Door>();
-    }
 
     private void Update()
     {
@@ -27,7 +20,7 @@ public class DoorAnimation : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (_door.IsClosed())
+                    if (_door.IsOpened)
                     {
                         _door.Close();
                     }

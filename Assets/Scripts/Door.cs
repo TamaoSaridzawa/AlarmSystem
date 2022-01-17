@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    private const string IsOpen = "IsOpen";
-
     [SerializeField] private Animator _animator;
 
+    private const string IsOpen = "IsOpen";
+
     private bool _isOpened;
+
+    public bool IsOpened => _isOpened;
 
     public void Open()
     {
@@ -22,10 +24,5 @@ public class Door : MonoBehaviour
         _animator.SetBool(IsOpen, _isOpened);
 
         _isOpened = false;
-    }
-
-    public bool IsClosed()
-    {
-        return _isOpened;
     }
 }

@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class AlarmSystem : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _maxVolume;
     [SerializeField] private float _step;
+
+    private AudioSource _audioSource;
 
     private int _minVolume = 0;
     private float _currentVolume = 0;
     private bool _isWork;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
